@@ -20,9 +20,9 @@ class Prowl(object):
         Initialize a Prowl instance.
         """
         self.apikey = apikey
-        
-        # Aliasing
-        self.add = self.post
+    
+    def encode(self, text):
+        return text.encode('utf-8')
         
     def post(self, application=None, event=None, description=None,priority=0):
         # Create the http object
@@ -32,10 +32,10 @@ class Prowl(object):
         headers = {'User-Agent': "Prowlpy/%s" % str(__version__)}
         
         # URL-encode and string-ify keywords. Better type/content testing is needed here
-        application = urllib.quote(str(application))
-        event = urllib.quote(str(event))
-        description = urllib.quote(str(description))
-        priority = urllib.quote(str(priority))
+        application = self.encode(application)
+        event = self.encode(event)
+        description = self.encode(description)
+        priority = self.encode(str(priority))
         
         # Perform the request and get the response headers and content
         data = {
